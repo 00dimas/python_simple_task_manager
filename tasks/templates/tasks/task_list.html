@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen flex flex-col items-center p-6">
+    <!-- Navbar -->
+    <nav class="w-full max-w-4xl flex justify-between items-center bg-white p-4 rounded-lg shadow-lg mb-8">
+        <h1 class="text-2xl font-extrabold text-gray-800">Task Manager App</h1>
+        <a href="{% url 'logout' %}" class="text-red-500 font-semibold hover:text-red-700 transition">Logout</a>
+    </nav>
+
+    <!-- Task List -->
+    <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Your Tasks</h2>
+        <ul class="space-y-4">
+            {% for task in tasks %}
+                <li class="flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow-sm hover:bg-gray-200 transition">
+                    <div>
+                        <p class="text-lg font-medium text-gray-900">{{ task.title }}</p>
+                        <p class="text-sm text-gray-500">{{ task.completed|yesno:"Completed,Not completed" }}</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="{% url 'edit_task' task.id %}" class="text-blue-500 font-semibold hover:text-blue-700 transition">Edit</a>
+                        <a href="{% url 'delete_task' task.id %}" class="text-red-500 font-semibold hover:text-red-700 transition">Delete</a>
+                    </div>
+                </li>
+            {% empty %}
+                <p class="text-center text-gray-500">No tasks available. Add your first task below!</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Add Task Button -->
+    <div class="mt-8">
+        <a href="{% url 'add_task' %}" class="px-6 py-3 bg-blue-600 text-white font-semibold text-lg rounded-lg shadow-lg hover:bg-blue-700 transition">
+            Add Task
+        </a>
+    </div>
+</body>
+</html>
